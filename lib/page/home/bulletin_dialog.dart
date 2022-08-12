@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BulletinDialog extends StatelessWidget {
   const BulletinDialog({Key? key}) : super(key: key);
@@ -22,7 +23,7 @@ class BulletinDialog extends StatelessWidget {
             Expanded(
               child: Container(
                 padding:
-                const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -32,13 +33,13 @@ class BulletinDialog extends StatelessWidget {
                   children: [
                     Stack(
                       children: [
-                        const Positioned.fill(
+                        Positioned.fill(
                             child: Align(
                           alignment: Alignment.center,
                           child: Text(
                             '卡個位防疫公告',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
+                                fontWeight: FontWeight.bold, fontSize: 16.sp),
                           ),
                         )),
                         Align(
@@ -57,15 +58,14 @@ class BulletinDialog extends StatelessWidget {
                     ),
                     Text(
                       _content,
-                      style: const TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 16.sp),
                     ),
                   ],
                 ),
               ),
             ),
             Container(
-              padding:
-              const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               width: double.infinity,
               decoration: const BoxDecoration(
                   color: Colors.yellow,
@@ -74,11 +74,11 @@ class BulletinDialog extends StatelessWidget {
                       bottomRight: Radius.circular(24))),
               child: TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text(
+                  child: Text(
                     '我知道了',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       color: Colors.grey,
                     ),
                   )),

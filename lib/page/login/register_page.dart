@@ -2,6 +2,7 @@ import 'package:cutaway/tool/images.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../router/route_utils.dart';
@@ -44,9 +45,9 @@ class _Body extends StatelessWidget {
         const SizedBox(
           height: 32,
         ),
-        const Text(
+        Text(
           '註冊會員',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 32,
@@ -178,7 +179,7 @@ class _AppellationPicker extends ConsumerWidget {
             appellation.isEmpty ? '稱謂' : appellation,
             style: TextStyle(
                 color: appellation.isEmpty ? Colors.grey : Colors.black,
-                fontSize: 16),
+                fontSize: 16.sp),
           );
         },
       ),
@@ -214,7 +215,7 @@ class _AppellationPicker extends ConsumerWidget {
           .map((item) => Center(
                 child: Text(
                   item,
-                  style: const TextStyle(fontSize: 24),
+                  style: TextStyle(fontSize: 24.sp),
                 ),
               ))
           .toList(),
@@ -249,7 +250,7 @@ class _BirthdayPicker extends ConsumerWidget {
               birthday.isEmpty ? '生日' : birthday,
               style: TextStyle(
                   color: birthday.isEmpty ? Colors.grey : Colors.black,
-                  fontSize: 16),
+                  fontSize: 16.sp),
             );
           },
         ),
@@ -273,7 +274,8 @@ class _BirthdayPicker extends ConsumerWidget {
                         minimumDate: DateTime(1900, 1, 1),
                         maximumDate: DateTime.now(),
                         onDateTimeChanged: (value) {
-                          ref.read(_birthday.state).state = '${value.year}-${value.month}-${value.day}';
+                          ref.read(_birthday.state).state =
+                              '${value.year}-${value.month}-${value.day}';
                         }),
                   ),
                 ],

@@ -1,5 +1,6 @@
 import 'package:cutaway/tool/images.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -23,9 +24,9 @@ class WelcomePage extends StatelessWidget {
               height: MediaQuery.of(context).size.width / 2,
               width: MediaQuery.of(context).size.width / 2,
             ),
-            const Text(
+            Text(
               'Cutaway',
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold),
             ),
             const Spacer(),
             SizedBox(

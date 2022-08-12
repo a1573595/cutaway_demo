@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cutaway/router/route_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -128,7 +129,9 @@ class _ADPageViewState extends State<ADPageView> {
       var currentPage = (_controller.page ?? 0).toInt();
 
       _controller.animateToPage(
-        currentPage < widget.ad.storeSummarys.length - 1 ? (currentPage + 1) : 0,
+        currentPage < widget.ad.storeSummarys.length - 1
+            ? (currentPage + 1)
+            : 0,
         duration: const Duration(milliseconds: 350),
         curve: Curves.easeIn,
       );
@@ -279,7 +282,7 @@ class FeatureStore extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       store.description,
-                      style: const TextStyle(fontSize: 12),
+                      style: TextStyle(fontSize: 12.sp),
                     ),
                   ],
                 ),
@@ -338,12 +341,12 @@ class TopicStore extends StatelessWidget {
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
                       side: const BorderSide(),
                       borderRadius: BorderRadius.circular(4)))),
-              child: const SizedBox(
+              child: SizedBox(
                 width: double.infinity,
                 child: Center(
                   child: Text(
                     '更多店家',
-                    style: TextStyle(fontSize: 18, color: Colors.black),
+                    style: TextStyle(fontSize: 18.sp, color: Colors.black),
                   ),
                 ),
               )),
@@ -397,7 +400,7 @@ class TopicStore extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               store.description,
-              style: const TextStyle(fontSize: 12),
+              style: TextStyle(fontSize: 12.sp),
             ),
           ],
         ),

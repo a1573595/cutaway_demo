@@ -2,6 +2,7 @@ import 'package:cutaway/router/route_utils.dart';
 import 'package:cutaway/tool/images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 part 'login_view_model.dart';
@@ -43,9 +44,9 @@ class _Body extends StatelessWidget {
         const SizedBox(
           height: 32,
         ),
-        const Text(
+        Text(
           '會員登入',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 32,

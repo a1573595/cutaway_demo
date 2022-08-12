@@ -1,6 +1,7 @@
 import 'package:cutaway/tool/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'account_page.dart';
 import 'favorites_page.dart';
@@ -62,7 +63,7 @@ class _PageView extends ConsumerWidget {
   final PageController _controller;
 
   final List<Widget> _pages = [
-    StorePage(),
+    const StorePage(),
     const FavoritesPage(),
     SearchPage(),
     const MyOrderPage(),
@@ -95,8 +96,8 @@ class _BottomNavigationBar extends ConsumerWidget {
       type: BottomNavigationBarType.fixed,
       selectedItemColor: Colors.black,
       unselectedItemColor: Colors.black.withOpacity(.3),
-      selectedFontSize: 14,
-      unselectedFontSize: 12,
+      selectedFontSize: 14.sp,
+      unselectedFontSize: 12.sp,
       onTap: (value) {
         _controller.jumpToPage(value);
       },

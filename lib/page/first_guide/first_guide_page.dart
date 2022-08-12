@@ -4,6 +4,7 @@ import 'package:cutaway/tool/images.dart';
 import 'package:cutaway/tool/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -41,16 +42,16 @@ class FirstGuidePage extends ConsumerWidget {
                     children: [
                       Image.asset(_guides[index].image,
                           height: MediaQuery.of(context).size.width / 4 * 3),
-                      const SizedBox(
-                        height: 64,
+                      SizedBox(
+                        height: 64.sp,
                       ),
                       Text(
                         _guides[index].title,
-                        style: const TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 24.sp, fontWeight: FontWeight.bold),
                       ),
-                      const SizedBox(
-                        height: 8,
+                      SizedBox(
+                        height: 8.sp,
                       ),
                       Text(_guides[index].description)
                     ],
@@ -58,30 +59,30 @@ class FirstGuidePage extends ConsumerWidget {
                 );
               }),
           Padding(
-            padding: const EdgeInsets.all(63),
+            padding: EdgeInsets.all(64.sp),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: SmoothPageIndicator(
                   controller: _controller, // PageController
                   count: _guides.length,
-                  effect: const WormEffect(
-                    dotHeight: 8,
-                    dotWidth: 8,
-                    spacing: 24,
+                  effect: WormEffect(
+                    dotHeight: 8.sp,
+                    dotWidth: 8.sp,
+                    spacing: 24.sp,
                     activeDotColor: Colors.black,
                   ), // your preferred effect
                   onDotClicked: (index) {}),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(32),
+            padding: EdgeInsets.all(36.sp),
             child: Align(
               alignment: Alignment.bottomRight,
               child: ElevatedButton(
                 onPressed: () => _onNextClick(context),
                 style: ElevatedButton.styleFrom(
                   shape: const CircleBorder(),
-                  padding: const EdgeInsets.all(24),
+                  padding: EdgeInsets.all(18.sp),
                   primary: Colors.black, // <-- Button color
                   // onPrimary: Colors.red, // <-- Splash color
                 ),
@@ -101,9 +102,13 @@ class FirstGuidePage extends ConsumerWidget {
     var page = _controller.page;
     if (page != null) {
       if (page + 1 < _guides.length) {
-        _controller.jumpToPage(page.toInt() + 1);
+        _controller.animateToPage(page.toInt() + 1,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.decelerate);
       } else {
-        sharedPrefs.setIsFirstEntry(true).whenComplete(() => GoRouter.of(context).go(AppPage.home.fullPath));
+        sharedPrefs
+            .setIsFirstEntry(true)
+            .whenComplete(() => GoRouter.of(context).go(AppPage.home.fullPath));
       }
     }
   }

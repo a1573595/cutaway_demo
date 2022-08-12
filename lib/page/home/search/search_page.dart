@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../model/StoreSummary.dart';
 import '../../../tool/images.dart';
@@ -57,17 +58,17 @@ Widget _buildSearchBar() {
         borderRadius: BorderRadius.all(Radius.circular(8)),
         color: Colors.black12),
     child: Row(
-      children: const [
-        Icon(
+      children: [
+        const Icon(
           Icons.search,
           color: Colors.grey,
         ),
-        SizedBox(
+        const SizedBox(
           width: 16,
         ),
         Text(
           '搜尋店家，例如：阜杭豆漿',
-          style: TextStyle(color: Colors.grey, fontSize: 16.0),
+          style: TextStyle(color: Colors.grey, fontSize: 16.sp),
         )
       ],
     ),

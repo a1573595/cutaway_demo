@@ -1,5 +1,6 @@
 import 'package:cutaway/router/route_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class AccountPage extends StatelessWidget {
@@ -22,11 +23,11 @@ class AccountPage extends StatelessWidget {
                   padding: const EdgeInsets.all(24),
                   decoration: const BoxDecoration(
                       color: Colors.black, shape: BoxShape.circle),
-                  child: const Text(
+                  child: Text(
                     '訪',
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20,
+                        fontSize: 20.sp,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -172,11 +173,11 @@ class _CardButton extends StatelessWidget {
                             color: Colors.yellowAccent,
                             borderRadius:
                                 BorderRadius.all(Radius.circular(24))),
-                        child: const Text(
+                        child: Text(
                           'New',
                           style: TextStyle(
                               color: Colors.grey,
-                              fontSize: 12,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.bold),
                         ),
                       )

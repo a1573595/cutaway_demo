@@ -1,5 +1,6 @@
 import 'package:cutaway/router/route_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class FavoritesPage extends StatelessWidget {
@@ -34,10 +35,10 @@ class FavoritesPage extends StatelessWidget {
               ))
         ],
       ),
-      body: const Center(
+      body: Center(
         child: Text(
           '登入會員啟用此功能',
-          style: TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: 16.sp),
         ),
       ),
     );

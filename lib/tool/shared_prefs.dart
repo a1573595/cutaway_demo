@@ -1,6 +1,4 @@
-import 'dart:convert';
-
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 final sharedPrefs = _SharedPrefs();
 
@@ -9,66 +7,61 @@ const String _keyIsBulletinBeenShown = "isBulletinBeenShown";
 const String _keyIsLogin = "isLogin";
 
 class _SharedPrefs {
-  static late SharedPreferences _sharedPrefs;
+  final AndroidOptions _androidOptions = const AndroidOptions(
+    encryptedSharedPreferences: true,
+    // sharedPreferencesName: 'Test2',
+    // preferencesKeyPrefix: 'Test'
+  );
 
-  init() async {
-    _sharedPrefs = await SharedPreferences.getInstance();
-  }
+  final IOSOptions _iOSOptions = const IOSOptions(
+      // accountName: _getAccountName(),
+      );
 
-  bool getIsFirstEntry() => read(_keyIsFirstEntry, false);
+  late final storage =
+      FlutterSecureStorage(aOptions: _androidOptions, iOptions: _iOSOptions);
 
-  Future<bool> setIsFirstEntry(bool value) => write(_keyIsFirstEntry, value);
+  Future<bool> getIsFirstEntry() => read(_keyIsFirstEntry, false);
 
-  bool getIsBulletinBeenShown() => read(_keyIsBulletinBeenShown, false);
+  Future<void> setIsFirstEntry(bool value) => write(_keyIsFirstEntry, value);
 
-  Future<bool> setIsBulletinBeenShown(bool value) =>
+  Future<bool> getIsBulletinBeenShown() => read(_keyIsBulletinBeenShown, false);
+
+  Future<void> setIsBulletinBeenShown(bool value) =>
       write(_keyIsBulletinBeenShown, value);
 
-  bool getIsLogin() => read(_keyIsLogin, false);
+  Future<bool> getIsLogin() => read(_keyIsLogin, false);
 
-  Future<bool> setIsLogin(bool value) => write(_keyIsLogin, value);
+  Future<void> setIsLogin(bool value) => write(_keyIsLogin, value);
 
-  Future<bool> clear() => _sharedPrefs.clear();
+  Future<void> clear() => storage.deleteAll();
 
-  Future<bool> write<T>(String key, T value) {
-    if (value is String) {
-      return _sharedPrefs.setString(key, (value).toBase64());
-    } else if (value is bool || value is int || value is double) {
-      return _sharedPrefs.setString(key, value.toString().toBase64());
-    } else {
-      throw Exception(
-          'Unsupported data type, only support String, double, int and bool.');
-    }
-  }
+  Future<T> read<T>(String key, T defaultValue) async {
+    final String? value = await storage.read(key: key);
 
-  T read<T>(String key, T defaultValue) {
-    var encryptStr = _sharedPrefs.getString(key);
-    var decryptStr = encryptStr?.fromBase64();
-
-    if (decryptStr == null) {
+    if (value == null) {
       return defaultValue;
-    } else if (T == String) {
-      return decryptStr as T;
-    } else if (T == double) {
-      return double.parse(decryptStr) as T;
-    } else if (T == int) {
-      return int.parse(decryptStr) as T;
     } else if (T == bool) {
-      return (decryptStr == 'true') as T;
+      return (value == 'true') as T;
+    } else if (T == int) {
+      return int.parse(value) as T;
+    } else if (T == double) {
+      return double.parse(value) as T;
+    } else if (T == String) {
+      return value as T;
+    } else {
+      throw const FormatException(
+          'Unsupported data type, only support bool, iny, double and String.');
     }
-
-    throw Exception('Unknown exception');
-  }
-}
-
-extension on String {
-  toBase64() {
-    var bytes = utf8.encode(this);
-    return base64.encode(bytes);
   }
 
-  String fromBase64() {
-    var bytes = base64.decode(this);
-    return utf8.decode(bytes);
+  Future<void> write<T>(String key, T value) {
+    if (value is String) {
+      return storage.write(key: key, value: value);
+    } else if (value is bool || value is int || value is double) {
+      return storage.write(key: key, value: value.toString());
+    } else {
+      throw const FormatException(
+          'Unsupported data type, only support bool, iny, double and String.');
+    }
   }
 }

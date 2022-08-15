@@ -24,11 +24,13 @@ class HomePage extends StatelessWidget {
      * 使用addPostFrameCallback監聽build完成
      */
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!sharedPrefs.getIsBulletinBeenShown()) {
-        sharedPrefs.setIsBulletinBeenShown(true);
-
-        _showDialog(context);
-      }
+      sharedPrefs.getIsBulletinBeenShown().then((value) {
+        if (value) {
+          sharedPrefs
+              .setIsBulletinBeenShown(true)
+              .then((value) => _showDialog(context));
+        }
+      });
     });
 
     return Scaffold(

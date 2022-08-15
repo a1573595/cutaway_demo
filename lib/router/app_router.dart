@@ -26,7 +26,8 @@ final GoRouter rootRouter = GoRouter(
           name: AppPage.home.name,
           path: AppPage.home.fullPath,
           // builder: (context, state) => HomePage(),
-          pageBuilder: (context, state) => buildPageWithDefaultTransition(state, HomePage()),
+          pageBuilder: (context, state) =>
+              buildPageWithDefaultTransition(state, HomePage()),
           routes: [
             GoRoute(
                 name: AppPage.notification.name,

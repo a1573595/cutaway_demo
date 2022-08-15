@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../model/NotificationSummary.dart';
@@ -137,10 +138,11 @@ class ItemNotification extends StatelessWidget {
       child: InkWell(
         onTap: () {
           var router = GoRouter.of(context);
-          router.go('${router.location}${AppPage.notificationDetail.fullPath}');
+          router.go('${router.location}${AppPage.notificationDetail.fullPath}',
+              extra: _notificationSummary);
         },
         child: Ink(
-          height: 80,
+          height: 80.sp,
           decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(),

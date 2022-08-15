@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../widget/KeepAlivePage.dart';
 import 'account/account_page.dart';
 import 'favorites_page.dart';
 import 'my_list/my_order_page.dart';
@@ -65,11 +66,11 @@ class _PageView extends ConsumerWidget {
   final PageController _controller;
 
   final List<Widget> _pages = [
-    const StorePage(),
-    const FavoritesPage(),
-    SearchPage(),
-    const MyOrderPage(),
-    const AccountPage()
+    const KeepAlivePage(child: StorePage()),
+    const KeepAlivePage(child: FavoritesPage()),
+    KeepAlivePage(child: SearchPage()),
+    const KeepAlivePage(child: MyOrderPage()),
+    const KeepAlivePage(child: AccountPage()),
   ];
 
   @override

@@ -9,6 +9,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../model/StoreSummary.dart';
 import '../../../model/TopicSummary.dart';
+import '../../../tool/hookHelper.dart';
 import '../../../tool/images.dart';
 
 class StorePage extends StatelessWidget {
@@ -160,16 +161,6 @@ class ADPageView extends HookWidget {
         ],
       ),
     );
-  }
-
-  void useInterval(VoidCallback callback, Duration delay) {
-    final savedCallback = useRef(callback);
-    savedCallback.value = callback;
-
-    useEffect(() {
-      final timer = Timer.periodic(delay, (_) => savedCallback.value());
-      return timer.cancel;
-    }, [delay]);
   }
 
   Widget _buildAD(BuildContext context, StoreSummary summary) {

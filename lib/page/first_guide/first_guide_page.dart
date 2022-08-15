@@ -3,17 +3,13 @@ import 'package:cutaway/router/route_utils.dart';
 import 'package:cutaway/tool/images.dart';
 import 'package:cutaway/tool/shared_prefs.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-part 'first_guide_view_model.dart';
-
-class FirstGuidePage extends ConsumerWidget {
+class FirstGuidePage extends HookWidget {
   FirstGuidePage({Key? key}) : super(key: key);
-
-  final PageController _controller = PageController();
 
   final _guides = [
     Guide(Images.intro_step1, '線上訂購', '網站APP下單、菜單點餐方便快速。'),
@@ -22,15 +18,14 @@ class FirstGuidePage extends ConsumerWidget {
   ];
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
+    final controller = usePageController();
+
     return Scaffold(
       body: Stack(
         children: [
           PageView.builder(
-              controller: _controller,
-              onPageChanged: (value) {
-                ref.read(_pagePosition.state).state = value;
-              },
+              controller: controller,
               itemCount: _guides.length,
               itemBuilder: (context, index) {
                 /**
@@ -63,7 +58,7 @@ class FirstGuidePage extends ConsumerWidget {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: SmoothPageIndicator(
-                  controller: _controller, // PageController
+                  controller: controller, // PageController
                   count: _guides.length,
                   effect: WormEffect(
                     dotHeight: 8.sp,
@@ -79,7 +74,7 @@ class FirstGuidePage extends ConsumerWidget {
             child: Align(
               alignment: Alignment.bottomRight,
               child: ElevatedButton(
-                onPressed: () => _onNextClick(context),
+                onPressed: () => _onNextClick(context, controller),
                 style: ElevatedButton.styleFrom(
                   shape: const CircleBorder(),
                   padding: EdgeInsets.all(18.sp),
@@ -98,11 +93,11 @@ class FirstGuidePage extends ConsumerWidget {
     );
   }
 
-  void _onNextClick(BuildContext context) {
-    var page = _controller.page;
+  void _onNextClick(context, controller) {
+    var page = controller.page;
     if (page != null) {
       if (page + 1 < _guides.length) {
-        _controller.animateToPage(page.toInt() + 1,
+        controller.animateToPage(page.toInt() + 1,
             duration: const Duration(milliseconds: 300),
             curve: Curves.decelerate);
       } else {

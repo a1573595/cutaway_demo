@@ -30,7 +30,9 @@ dependencies:
   flutter:
     sdk: flutter
   go_router: ^4.2.7
-  flutter_riverpod: ^1.0.4
+#  flutter_riverpod: ^1.0.4
+  flutter_hooks: ^0.18.5+1
+  hooks_riverpod: ^1.0.4
   json_annotation: ^4.6.0
   flutter_secure_storage: ^5.1.0
   smooth_page_indicator: ^1.0.0+2

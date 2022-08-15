@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'account_page.dart';
+import 'account/account_page.dart';
 import 'favorites_page.dart';
 import 'my_list/my_order_page.dart';
 import 'bulletin_dialog.dart';
 import 'search/search_page.dart';
-import 'store_page.dart';
+import 'store/store_page.dart';
 
 part 'home_view_model.dart';
 

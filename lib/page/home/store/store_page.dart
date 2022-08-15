@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:cutaway/router/route_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../model/StoreSummary.dart';
-import '../../model/TopicSummary.dart';
-import '../../tool/images.dart';
+import '../../../model/StoreSummary.dart';
+import '../../../model/TopicSummary.dart';
+import '../../../tool/images.dart';
 
 class StorePage extends StatelessWidget {
   const StorePage({Key? key}) : super(key: key);
@@ -103,64 +104,50 @@ class _Body extends StatelessWidget {
           } else {
             return TopicStore(_topics[index - 2]);
           }
-          ;
         });
   }
 }
 
-class ADPageView extends StatefulWidget {
+class ADPageView extends HookWidget {
   const ADPageView(this.ad, {Key? key}) : super(key: key);
 
   final TopicSummary ad;
 
   @override
-  State<ADPageView> createState() => _ADPageViewState();
-}
+  Widget build(BuildContext context) {
+    var height = useState(MediaQuery.of(context).size.height);
+    var width = useState(MediaQuery.of(context).size.width);
+    var size =
+        useState(height.value > width.value ? width.value : height.value);
 
-class _ADPageViewState extends State<ADPageView> {
-  final PageController _controller = PageController();
-  late Timer _timer;
+    final controller = usePageController();
+    useInterval(() {
+      var currentPage = (controller.page ?? 0).toInt();
 
-  @override
-  void initState() {
-    super.initState();
-
-    _timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
-      var currentPage = (_controller.page ?? 0).toInt();
-
-      _controller.animateToPage(
-        currentPage < widget.ad.storeSummarys.length - 1
-            ? (currentPage + 1)
-            : 0,
+      controller.animateToPage(
+        currentPage < ad.storeSummarys.length - 1 ? (currentPage + 1) : 0,
         duration: const Duration(milliseconds: 350),
         curve: Curves.easeIn,
       );
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
-    var size = height > width ? width : height;
+    }, const Duration(seconds: 5));
 
     return SizedBox(
-      height: size * 0.35,
+      height: size.value * 0.35,
       child: Stack(
         children: [
           PageView.builder(
-              controller: _controller,
-              itemCount: widget.ad.storeSummarys.length,
+              controller: controller,
+              itemCount: ad.storeSummarys.length,
               itemBuilder: (context, index) {
-                return _buildAD(context, widget.ad.storeSummarys[index]);
+                return _buildAD(context, ad.storeSummarys[index]);
               }),
           Padding(
             padding: const EdgeInsets.all(16),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: SmoothPageIndicator(
-                  controller: _controller, // PageController
-                  count: widget.ad.storeSummarys.length,
+                  controller: controller, // PageController
+                  count: ad.storeSummarys.length,
                   effect: const WormEffect(
                     dotHeight: 8,
                     dotWidth: 8,
@@ -175,6 +162,16 @@ class _ADPageViewState extends State<ADPageView> {
     );
   }
 
+  void useInterval(VoidCallback callback, Duration delay) {
+    final savedCallback = useRef(callback);
+    savedCallback.value = callback;
+
+    useEffect(() {
+      final timer = Timer.periodic(delay, (_) => savedCallback.value());
+      return timer.cancel;
+    }, [delay]);
+  }
+
   Widget _buildAD(BuildContext context, StoreSummary summary) {
     return Center(
         child: Image(
@@ -182,12 +179,6 @@ class _ADPageViewState extends State<ADPageView> {
       fit: BoxFit.fill,
       height: double.infinity,
     ));
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _timer.cancel();
   }
 }
 

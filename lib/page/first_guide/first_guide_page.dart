@@ -1,12 +1,14 @@
 import 'package:cutaway/model/Guide.dart';
 import 'package:cutaway/router/route_utils.dart';
 import 'package:cutaway/tool/images.dart';
-import 'package:cutaway/tool/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import '../../database/preferences.dart';
 
 class FirstGuidePage extends HookWidget {
   FirstGuidePage({Key? key}) : super(key: key);
@@ -101,8 +103,8 @@ class FirstGuidePage extends HookWidget {
             duration: const Duration(milliseconds: 300),
             curve: Curves.decelerate);
       } else {
-        sharedPrefs
-            .setIsFirstEntry(true)
+        Hive.box(tablePreferences)
+            .put(keyIsFirstEntry, true)
             .whenComplete(() => GoRouter.of(context).go(AppPage.home.fullPath));
       }
     }

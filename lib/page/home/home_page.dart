@@ -1,8 +1,9 @@
-import 'package:cutaway/tool/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
+import '../../database/preferences.dart';
 import '../../widget/KeepAlivePage.dart';
 import 'account/account_page.dart';
 import 'favorites_page.dart';
@@ -13,34 +14,39 @@ import 'store/store_page.dart';
 
 part 'home_view_model.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
-
-  final PageController _controller = PageController();
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+
     /**
      * 在build時不能處理其他變動
      * 使用addPostFrameCallback監聽build完成
      */
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      sharedPrefs.getIsBulletinBeenShown().then((value) {
-        if (value) {
-          sharedPrefs
-              .setIsBulletinBeenShown(true)
-              .then((value) => _showDialog(context));
-        }
-      });
-    });
+      var box = Hive.box(tablePreferences);
+      var isLogged = box.get(keyIsBulletinBeenShown) == true;
 
-    return Scaffold(
-      body: _PageView(_controller),
-      bottomNavigationBar: _BottomNavigationBar(_controller),
-    );
+      if (!isLogged) {
+        box.put(keyIsBulletinBeenShown, true);
+        _showDialog();
+      }
+    });
   }
 
-  void _showDialog(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
+    return _Body();
+  }
+
+  void _showDialog() {
     showGeneralDialog(
         context: context,
         pageBuilder: (context, animation, secondaryAnimation) {
@@ -57,6 +63,20 @@ class HomePage extends StatelessWidget {
             child: child,
           );
         });
+  }
+}
+
+class _Body extends StatelessWidget {
+  _Body({Key? key}) : super(key: key);
+
+  final PageController _controller = PageController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _PageView(_controller),
+      bottomNavigationBar: _BottomNavigationBar(_controller),
+    );
   }
 }
 

@@ -1,6 +1,8 @@
 import 'package:cutaway/router/route_utils.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
+import '../database/preferences.dart';
 import '../model/NotificationSummary.dart';
 import '../page/first_guide/first_guide_page.dart';
 import '../page/home/home_page.dart';
@@ -10,6 +12,16 @@ import '../page/login/login_page.dart';
 import '../page/login/register_page.dart';
 import '../page/login/welcome_page.dart';
 import 'fade_transition_page.dart';
+
+final rootRouter = GoRouter(
+    initialLocation: Hive.box(tablePreferences).get(keyIsFirstEntry) == true
+        ? AppPage.home.fullPath
+        : AppPage.firstGuide.fullPath,
+    routes: [
+      firstGuideRouter,
+      homeRouter,
+      loginRouter,
+    ]);
 
 final firstGuideRouter = GoRoute(
   name: AppPage.firstGuide.name,
@@ -22,7 +34,7 @@ final homeRouter = GoRoute(
     path: AppPage.home.fullPath,
     // builder: (context, state) => HomePage(),
     pageBuilder: (context, state) =>
-        buildPageWithDefaultTransition(state, HomePage()),
+        buildPageWithDefaultTransition(state, const HomePage()),
     routes: [
       GoRoute(
           name: AppPage.notification.name,

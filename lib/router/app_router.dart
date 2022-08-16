@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../database/preferences.dart';
-import '../model/NotificationSummary.dart';
+import '../database/table/notification_info.dart';
 import '../page/first_guide/first_guide_page.dart';
 import '../page/home/home_page.dart';
 import '../page/home/notification/notification_detail_page.dart';
@@ -46,7 +46,7 @@ final homeRouter = GoRoute(
                 name: AppPage.notificationDetail.name,
                 path: AppPage.notificationDetail.path,
                 builder: (context, state) =>
-                    NotificationDetailPage(state.extra as NotificationSummary)),
+                    NotificationDetailPage(state.extra as NotificationInfo)),
           ]),
     ]);
 

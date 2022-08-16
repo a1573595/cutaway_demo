@@ -1,12 +1,13 @@
-import 'dart:async';
-
 import 'package:cutaway/router/route_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../database/table/store_info.dart';
+import '../../../database/table/topic_info.dart';
 import '../../../model/StoreSummary.dart';
 import '../../../model/TopicSummary.dart';
 import '../../../tool/hookHelper.dart';
@@ -69,29 +70,7 @@ class _Body extends StatelessWidget {
     StoreSummary(4, Images.jellycat, 'JELLYCAT', '來自英國倫敦最富創意的絨毛玩具'),
   ]);
 
-  final List<TopicSummary> _topics = [
-    TopicSummary('露營', 'Chill Chill 去露營', [
-      StoreSummary(0, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-      StoreSummary(1, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-      StoreSummary(2, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-      StoreSummary(3, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-      StoreSummary(4, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-    ]),
-    TopicSummary('台北城', '台北城新店散策', [
-      StoreSummary(0, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-      StoreSummary(1, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-      StoreSummary(2, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-      StoreSummary(3, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-      StoreSummary(4, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-    ]),
-    TopicSummary('米其林', '米其林必比登推介', [
-      StoreSummary(0, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-      StoreSummary(1, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-      StoreSummary(2, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-      StoreSummary(3, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-      StoreSummary(4, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-    ]),
-  ];
+  final List<TopicInfo> _topics = Hive.box<TopicInfo>(tableTopicInfo).values.toList();
 
   @override
   Widget build(BuildContext context) {
@@ -280,7 +259,7 @@ class FeatureStore extends StatelessWidget {
 class TopicStore extends StatelessWidget {
   const TopicStore(this.topics, {Key? key}) : super(key: key);
 
-  final TopicSummary topics;
+  final TopicInfo topics;
 
   @override
   Widget build(BuildContext context) {
@@ -306,9 +285,9 @@ class TopicStore extends StatelessWidget {
               padding: const EdgeInsets.only(left: 16.0),
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
-              itemCount: topics.storeSummarys.length,
+              itemCount: topics.storeInfoList.length,
               itemBuilder: (BuildContext context, int index) =>
-                  _buildStore(context, topics.storeSummarys[index])),
+                  _buildStore(context, topics.storeInfoList[index])),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -337,7 +316,7 @@ class TopicStore extends StatelessWidget {
     );
   }
 
-  Widget _buildStore(BuildContext context, StoreSummary store) {
+  Widget _buildStore(BuildContext context, StoreInfo store) {
     return SizedBox(
       width: 200,
       child: Padding(

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
-import '../../../model/NotificationSummary.dart';
+import '../../../database/table/notification_info.dart';
 
 class NotificationDetailPage extends StatelessWidget {
-  const NotificationDetailPage(this._notificationSummary, {Key? key})
+  const NotificationDetailPage(this._info, {Key? key})
       : super(key: key);
 
-  final NotificationSummary _notificationSummary;
+  final NotificationInfo _info;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class NotificationDetailPage extends StatelessWidget {
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black),
         centerTitle: true,
-        title: Text(_notificationSummary.title,
+        title: Text(_info.title,
             style: const TextStyle(color: Colors.black)),
       ),
       body: Padding(

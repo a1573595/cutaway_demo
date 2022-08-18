@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import '../database/preferences.dart';
 import '../database/table/notification_info.dart';
+import '../main.dart';
 import '../page/first_guide/first_guide_page.dart';
 import '../page/home/home_page.dart';
 import '../page/home/notification/notification_detail_page.dart';
@@ -21,7 +22,18 @@ final rootRouter = GoRouter(
       firstGuideRouter,
       homeRouter,
       loginRouter,
-    ]);
+    ],
+    redirect: (state) {
+      // print('name:  ${state.name}');
+      // print('full:  ${state.fullpath}');
+      // print('location:  ${state.location}');
+      // print('subloc:  ${state.subloc}');
+      // print('path:  ${state.path}');
+
+      logger.i('Location: ${state.location}');
+
+      return null;
+    });
 
 final firstGuideRouter = GoRoute(
   name: AppPage.firstGuide.name,

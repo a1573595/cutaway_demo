@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cutaway/database/preferences.dart';
 import 'package:cutaway/router/app_router.dart';
 import 'package:cutaway/tool/images.dart';
@@ -6,11 +8,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:logger/logger.dart';
+import 'package:logger/src/outputs/file_output.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'database/table/notification_info.dart';
 import 'database/table/promotion_info.dart';
 import 'database/table/store_info.dart';
 import 'database/table/topic_info.dart';
+
+late Logger logger;
 
 void main() async {
   // Hive.initFlutter()已經有了
@@ -22,6 +29,26 @@ void main() async {
     ..registerAdapter(PromotionInfoAdapter())
     ..registerAdapter(TopicInfoAdapter())
     ..registerAdapter(StoreInfoAdapter());
+
+  final Directory? directory = Platform.isAndroid
+      ? await getExternalStorageDirectory()
+      : await getApplicationDocumentsDirectory();
+
+  logger = Logger(
+      printer: PrettyPrinter(printTime: true),
+      output: MultiOutput([
+        if (directory != null)
+          FileOutput(
+            file: File('${directory.path}/log.txt'),
+          ),
+        ConsoleOutput()
+      ]));
+
+  FlutterError.onError = (FlutterErrorDetails details) {
+    logger.e('Error', details.exception, details.stack);
+  };
+
+  logger.i('Initialize the database');
 
   await Hive.openBox(tablePreferences);
   var notificationBox =
@@ -87,6 +114,7 @@ void main() async {
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
+  logger.i('Start App');
   runApp(const ProviderScope(child: Cutaway()));
 }
 

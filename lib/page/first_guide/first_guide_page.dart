@@ -1,3 +1,4 @@
+import 'package:cutaway/database/preferences.dart';
 import 'package:cutaway/model/Guide.dart';
 import 'package:cutaway/router/route_utils.dart';
 import 'package:cutaway/tool/images.dart';
@@ -8,10 +9,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../database/preferences.dart';
-
 class FirstGuidePage extends HookWidget {
-  FirstGuidePage({Key? key}) : super(key: key);
+  FirstGuidePage({super.key});
 
   final _guides = [
     Guide(Images.intro_step1, '線上訂購', '網站APP下單、菜單點餐方便快速。'),

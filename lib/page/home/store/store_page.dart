@@ -1,4 +1,10 @@
+import 'package:cutaway/database/table/store_info.dart';
+import 'package:cutaway/database/table/topic_info.dart';
+import 'package:cutaway/model/StoreSummary.dart';
+import 'package:cutaway/model/TopicSummary.dart';
 import 'package:cutaway/router/route_utils.dart';
+import 'package:cutaway/tool/hookHelper.dart';
+import 'package:cutaway/tool/images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,15 +12,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../../database/table/store_info.dart';
-import '../../../database/table/topic_info.dart';
-import '../../../model/StoreSummary.dart';
-import '../../../model/TopicSummary.dart';
-import '../../../tool/hookHelper.dart';
-import '../../../tool/images.dart';
-
 class StorePage extends StatelessWidget {
-  const StorePage({Key? key}) : super(key: key);
+  const StorePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,26 +22,25 @@ class StorePage extends StatelessWidget {
         title: const Text('珍貴選品'),
         actions: [
           IconButton(
-              onPressed: () {
-                var router = GoRouter.of(context);
-                router.go('${router.location}${AppPage.notification.fullPath}');
-              },
-              icon: Stack(
-                children: [
-                  Icon(Icons.notifications, color: Colors.yellow[100]),
-                  const Icon(Icons.notifications_none),
-                  Positioned(
-                    top: 4,
-                    right: 2,
-                    child: Container(
-                      height: 8,
-                      width: 8,
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.red),
-                    ),
-                  )
-                ],
-              ))
+            onPressed: () {
+              context.pushNamed(AppPage.notification.name);
+            },
+            icon: Stack(
+              children: [
+                Icon(Icons.notifications, color: Colors.yellow[100]),
+                const Icon(Icons.notifications_none),
+                Positioned(
+                  top: 4,
+                  right: 2,
+                  child: Container(
+                    height: 8,
+                    width: 8,
+                    decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                  ),
+                )
+              ],
+            ),
+          ),
         ],
       ),
       body: _Body(),
@@ -51,16 +49,20 @@ class StorePage extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  _Body({Key? key}) : super(key: key);
+  _Body({super.key});
 
-  final TopicSummary ad = TopicSummary('', '', [
-    StoreSummary(0, Images.ad1, '', ''),
-    StoreSummary(1, Images.ad2, '', ''),
-    StoreSummary(2, Images.ad3, '', ''),
-    StoreSummary(3, Images.ad4, '', ''),
-    StoreSummary(4, Images.ad5, '', ''),
-    StoreSummary(5, Images.ad6, '', ''),
-  ]);
+  final TopicSummary ad = TopicSummary(
+    '',
+    '',
+    [
+      StoreSummary(0, Images.ad1, '', ''),
+      StoreSummary(1, Images.ad2, '', ''),
+      StoreSummary(2, Images.ad3, '', ''),
+      StoreSummary(3, Images.ad4, '', ''),
+      StoreSummary(4, Images.ad5, '', ''),
+      StoreSummary(5, Images.ad6, '', ''),
+    ],
+  );
 
   final TopicSummary feature = TopicSummary('優選店家', '優選店家', [
     StoreSummary(0, Images.jellycat, 'JELLYCAT', '來自英國倫敦最富創意的絨毛玩具'),
@@ -97,8 +99,7 @@ class ADPageView extends HookWidget {
   Widget build(BuildContext context) {
     var height = useState(MediaQuery.of(context).size.height);
     var width = useState(MediaQuery.of(context).size.width);
-    var size =
-        useState(height.value > width.value ? width.value : height.value);
+    var size = useState(height.value > width.value ? width.value : height.value);
 
     final controller = usePageController();
     useInterval(() {
@@ -153,7 +154,7 @@ class ADPageView extends HookWidget {
 }
 
 class FeatureStore extends StatelessWidget {
-  const FeatureStore(this.feature, {Key? key}) : super(key: key);
+  const FeatureStore(this.feature, {super.key});
 
   final TopicSummary feature;
 
@@ -177,13 +178,13 @@ class FeatureStore extends StatelessWidget {
         SizedBox(
           height: size * 0.4,
           child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(left: 16.0),
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemCount: feature.storeSummarys.length,
-              itemBuilder: (BuildContext context, int index) =>
-                  _buildStore(context, feature.storeSummarys[index])),
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.only(left: 16.0),
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemCount: feature.storeSummarys.length,
+            itemBuilder: (BuildContext context, int index) => _buildStore(context, feature.storeSummarys[index]),
+          ),
         ),
       ],
     );
@@ -217,11 +218,11 @@ class FeatureStore extends StatelessWidget {
                       child: Container(
                         height: 30,
                         width: 30,
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.white70),
+                        decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white70),
                         child: InkWell(
-                            onTap: () {},
-                            child: const Icon(Icons.favorite_border)),
+                          onTap: () {},
+                          child: const Icon(Icons.favorite_border),
+                        ),
                       ),
                     )
                   ],
@@ -257,7 +258,7 @@ class FeatureStore extends StatelessWidget {
 }
 
 class TopicStore extends StatelessWidget {
-  const TopicStore(this.topics, {Key? key}) : super(key: key);
+  const TopicStore(this.topics, {super.key});
 
   final TopicInfo topics;
 
@@ -281,36 +282,37 @@ class TopicStore extends StatelessWidget {
         SizedBox(
           height: size * 0.4,
           child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(left: 16.0),
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemCount: topics.storeInfoList.length,
-              itemBuilder: (BuildContext context, int index) =>
-                  _buildStore(context, topics.storeInfoList[index])),
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.only(left: 16.0),
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemCount: topics.storeInfoList.length,
+            itemBuilder: (BuildContext context, int index) => _buildStore(context, topics.storeInfoList[index]),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: TextButton(
-              onPressed: () => context,
-              style: ButtonStyle(
-                  overlayColor: MaterialStateProperty.all(Colors.black12),
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                      const EdgeInsets.all(6)),
-                  // shape: MaterialStateProperty.all<StadiumBorder>(
-                  //     const StadiumBorder(side: BorderSide()))
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      side: const BorderSide(),
-                      borderRadius: BorderRadius.circular(4)))),
-              child: SizedBox(
-                width: double.infinity,
-                child: Center(
-                  child: Text(
-                    '更多店家',
-                    style: TextStyle(fontSize: 18.sp, color: Colors.black),
-                  ),
+            onPressed: () => context,
+            style: ButtonStyle(
+              overlayColor: MaterialStateProperty.all(Colors.black12),
+              padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(6)),
+              // shape: MaterialStateProperty.all<StadiumBorder>(
+              //     const StadiumBorder(side: BorderSide()))
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(side: const BorderSide(), borderRadius: BorderRadius.circular(4)),
+              ),
+            ),
+            child: SizedBox(
+              width: double.infinity,
+              child: Center(
+                child: Text(
+                  '更多店家',
+                  style: TextStyle(fontSize: 18.sp, color: Colors.black),
                 ),
-              )),
+              ),
+            ),
+          ),
         )
       ],
     );
@@ -341,11 +343,11 @@ class TopicStore extends StatelessWidget {
                     child: Container(
                       height: 30,
                       width: 30,
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.white70),
+                      decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white70),
                       child: InkWell(
-                          onTap: () {},
-                          child: const Icon(Icons.favorite_border)),
+                        onTap: () {},
+                        child: const Icon(Icons.favorite_border),
+                      ),
                     ),
                   )
                 ],

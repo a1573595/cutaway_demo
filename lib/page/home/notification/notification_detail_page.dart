@@ -1,11 +1,9 @@
+import 'package:cutaway/database/table/notification_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
-import '../../../database/table/notification_info.dart';
-
 class NotificationDetailPage extends StatelessWidget {
-  const NotificationDetailPage(this._info, {Key? key})
-      : super(key: key);
+  const NotificationDetailPage(this._info, {super.key});
 
   final NotificationInfo _info;
 
@@ -13,7 +11,6 @@ class NotificationDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black),
         centerTitle: true,
         title: Text(_info.title,

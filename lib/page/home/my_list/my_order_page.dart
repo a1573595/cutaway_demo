@@ -5,15 +5,18 @@ part 'my_order_view_model.dart';
 
 // TODO('Hook')
 class MyOrderPage extends StatefulWidget {
-  const MyOrderPage({Key? key}) : super(key: key);
+  const MyOrderPage({super.key});
 
   @override
   State<MyOrderPage> createState() => _MyOrderPageState();
 }
 
-class _MyOrderPageState extends State<MyOrderPage>
-    with TickerProviderStateMixin {
-  final tabs = const [Text('尚未付款'), Text('即將到來'), Text('歷史訂單')];
+class _MyOrderPageState extends State<MyOrderPage> with TickerProviderStateMixin {
+  final tabs = const [
+    Text('尚未付款'),
+    Text('即將到來'),
+    Text('歷史訂單'),
+  ];
   late TabController _tabController;
 
   @override
@@ -36,7 +39,7 @@ class _MyOrderPageState extends State<MyOrderPage>
                 controller: _tabController,
                 tabs: tabs,
                 onTap: (value) {
-                  ref.read(_tabPosition.state).state = value;
+                  ref.read(_tabPosition.notifier).state = value;
                 },
               );
             },
@@ -48,38 +51,30 @@ class _MyOrderPageState extends State<MyOrderPage>
             children: [
               Consumer(
                 builder: (context, ref, child) {
-                  return ref.watch(_tabPosition.state).state != 0
+                  return ref.watch(_tabPosition.notifier).state != 0
                       ? Row(
                           children: [
                             Expanded(
                               child: Consumer(
                                 builder: (context, ref, child) {
                                   return OutlinedButton(
-                                      onPressed: () {
-                                        ref.read(_labelPosition.state).state =
-                                            0;
-                                      },
-                                      style: OutlinedButton.styleFrom(
-                                        backgroundColor: ref
-                                                    .watch(_labelPosition.state)
-                                                    .state ==
-                                                0
-                                            ? Colors.yellow[100]
-                                            : Colors.white,
-                                        side: const BorderSide(
-                                            color: Colors.black, width: 0.5),
-                                      ),
-                                      child: Text(
-                                        '外送訂單',
-                                        style: TextStyle(
-                                            color: ref
-                                                        .watch(_labelPosition
-                                                            .state)
-                                                        .state ==
-                                                    0
-                                                ? Colors.black
-                                                : Colors.grey),
-                                      ));
+                                    onPressed: () {
+                                      ref.read(_labelPosition.notifier).state = 0;
+                                    },
+                                    style: OutlinedButton.styleFrom(
+                                      backgroundColor: ref.watch(_labelPosition.notifier).state == 0
+                                          ? Colors.yellow[100]
+                                          : Colors.white,
+                                      side: const BorderSide(color: Colors.black, width: 0.5),
+                                    ),
+                                    child: Text(
+                                      '外送訂單',
+                                      style: TextStyle(
+                                          color: ref.watch(_labelPosition.notifier).state == 0
+                                              ? Colors.black
+                                              : Colors.grey),
+                                    ),
+                                  );
                                 },
                               ),
                             ),
@@ -90,31 +85,22 @@ class _MyOrderPageState extends State<MyOrderPage>
                               child: Consumer(
                                 builder: (context, ref, child) {
                                   return OutlinedButton(
-                                      onPressed: () {
-                                        ref.read(_labelPosition.state).state =
-                                            1;
-                                      },
-                                      style: OutlinedButton.styleFrom(
-                                        backgroundColor: ref
-                                                    .watch(_labelPosition.state)
-                                                    .state ==
-                                                1
-                                            ? Colors.yellow[100]
-                                            : Colors.white,
-                                        side: const BorderSide(
-                                            color: Colors.black, width: 0.5),
-                                      ),
-                                      child: Text(
-                                        '宅配訂單',
-                                        style: TextStyle(
-                                            color: ref
-                                                        .watch(_labelPosition
-                                                            .state)
-                                                        .state ==
-                                                    1
-                                                ? Colors.black
-                                                : Colors.grey),
-                                      ));
+                                    onPressed: () {
+                                      ref.read(_labelPosition.state).state = 1;
+                                    },
+                                    style: OutlinedButton.styleFrom(
+                                      backgroundColor: ref.watch(_labelPosition.state).state == 1
+                                          ? Colors.yellow[100]
+                                          : Colors.white,
+                                      side: const BorderSide(color: Colors.black, width: 0.5),
+                                    ),
+                                    child: Text(
+                                      '宅配訂單',
+                                      style: TextStyle(
+                                          color:
+                                              ref.watch(_labelPosition.state).state == 1 ? Colors.black : Colors.grey),
+                                    ),
+                                  );
                                 },
                               ),
                             ),
@@ -124,7 +110,11 @@ class _MyOrderPageState extends State<MyOrderPage>
                 },
               ),
               const Divider(),
-              const Expanded(child: Center(child: Text('登入會員查詢'))),
+              const Expanded(
+                child: Center(
+                  child: Text('登入會員查詢'),
+                ),
+              ),
             ],
           ),
         ));

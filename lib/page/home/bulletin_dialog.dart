@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BulletinDialog extends StatelessWidget {
-  const BulletinDialog({Key? key}) : super(key: key);
+  const BulletinDialog({super.key});
 
   final String _content = '1. 因應疫情避免交叉就感染，卡個位目前僅提供線上付款方式。\n\n'
       '2. 若您需無接觸送餐，可寫在備註告知管家\n\n'
@@ -22,26 +22,27 @@ class BulletinDialog extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(24),
-                        topRight: Radius.circular(24))),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  ),
+                ),
                 child: Column(
                   children: [
                     Stack(
                       children: [
                         Positioned.fill(
-                            child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            '卡個位防疫公告',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16.sp),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              '卡個位防疫公告',
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+                            ),
                           ),
-                        )),
+                        ),
                         Align(
                           alignment: Alignment.centerRight,
                           child: IconButton(
@@ -68,20 +69,23 @@ class BulletinDialog extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               width: double.infinity,
               decoration: const BoxDecoration(
-                  color: Colors.yellow,
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(24),
-                      bottomRight: Radius.circular(24))),
+                color: Colors.yellow,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(24),
+                  bottomRight: Radius.circular(24),
+                ),
+              ),
               child: TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text(
-                    '我知道了',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.sp,
-                      color: Colors.grey,
-                    ),
-                  )),
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  '我知道了',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.sp,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
             ),
           ],
         ),

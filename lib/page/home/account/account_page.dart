@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class AccountPage extends StatelessWidget {
-  const AccountPage({Key? key}) : super(key: key);
+  const AccountPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +21,10 @@ class AccountPage extends StatelessWidget {
               children: [
                 Container(
                   padding: const EdgeInsets.all(24),
-                  decoration: const BoxDecoration(
-                      color: Colors.black, shape: BoxShape.circle),
+                  decoration: const BoxDecoration(color: Colors.black, shape: BoxShape.circle),
                   child: Text(
                     '訪',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold),
+                    style: TextStyle(color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const SizedBox(
@@ -51,19 +47,15 @@ class AccountPage extends StatelessWidget {
                   elevation: 4,
                   child: InkWell(
                     onTap: () {
-                      var router = GoRouter.of(context);
-                      router.go(
-                          '${router.location}${AppPage.notification.fullPath}');
+                      context.pushNamed(AppPage.notification.name);
                     },
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 16),
+                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                       child: Column(
                         children: [
                           Stack(
                             children: [
-                              Icon(Icons.notifications,
-                                  color: Colors.yellow[100]),
+                              Icon(Icons.notifications, color: Colors.yellow[100]),
                               const Icon(Icons.notifications_none),
                               Positioned(
                                 top: 4,
@@ -71,9 +63,7 @@ class AccountPage extends StatelessWidget {
                                 child: Container(
                                   height: 8,
                                   width: 8,
-                                  decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.red),
+                                  decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
                                 ),
                               )
                             ],
@@ -85,38 +75,39 @@ class AccountPage extends StatelessWidget {
                   ),
                 )),
                 Expanded(
-                    child: Card(
-                  elevation: 4,
-                  child: InkWell(
-                    onTap: () =>
-                        GoRouter.of(context).push(AppPage.welcome.fullPath),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 16),
-                      child: Column(
-                        children: const [
-                          Icon(Icons.account_circle_outlined),
-                          Text('會員資料')
-                        ],
+                  child: Card(
+                    elevation: 4,
+                    child: InkWell(
+                      onTap: () => GoRouter.of(context).push(AppPage.welcome.fullPath),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                        child: Column(
+                          children: [
+                            Icon(Icons.account_circle_outlined),
+                            Text('會員資料'),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                )),
+                ),
                 Expanded(
-                    child: Card(
-                  elevation: 4,
-                  child: InkWell(
-                    onTap: () =>
-                        GoRouter.of(context).push(AppPage.welcome.fullPath),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 16),
-                      child: Column(
-                        children: const [Icon(Icons.login), Text('註冊/登入')],
+                  child: Card(
+                    elevation: 4,
+                    child: InkWell(
+                      onTap: () => GoRouter.of(context).push(AppPage.welcome.fullPath),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                        child: Column(
+                          children: [
+                            Icon(Icons.login),
+                            Text('註冊/登入'),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                )),
+                ),
               ],
             ),
             const SizedBox(
@@ -134,8 +125,10 @@ class AccountPage extends StatelessWidget {
               ),
             ),
             const Center(
-              child: Text('Release 2.9.10 build 75',
-                  style: TextStyle(color: Colors.grey)),
+              child: Text(
+                'Release 2.9.10 build 75',
+                style: TextStyle(color: Colors.grey),
+              ),
             ),
           ],
         ),
@@ -145,8 +138,7 @@ class AccountPage extends StatelessWidget {
 }
 
 class _CardButton extends StatelessWidget {
-  const _CardButton(this.title, this.isNew, this.callback, {Key? key})
-      : super(key: key);
+  const _CardButton(this.title, this.isNew, this.callback, {Key? key}) : super(key: key);
 
   final String title;
   final bool isNew;
@@ -170,15 +162,10 @@ class _CardButton extends StatelessWidget {
                         margin: const EdgeInsets.only(left: 8),
                         padding: const EdgeInsets.symmetric(horizontal: 4),
                         decoration: const BoxDecoration(
-                            color: Colors.yellowAccent,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(24))),
+                            color: Colors.yellowAccent, borderRadius: BorderRadius.all(Radius.circular(24))),
                         child: Text(
                           'New',
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.bold),
+                          style: TextStyle(color: Colors.grey, fontSize: 12.sp, fontWeight: FontWeight.bold),
                         ),
                       )
                     : const SizedBox(),

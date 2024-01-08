@@ -1,16 +1,15 @@
+import 'package:cutaway/database/preferences.dart';
+import 'package:cutaway/page/home/account/account_page.dart';
+import 'package:cutaway/page/home/bulletin_dialog.dart';
+import 'package:cutaway/page/home/favorites_page.dart';
+import 'package:cutaway/page/home/my_list/my_order_page.dart';
+import 'package:cutaway/page/home/search/search_page.dart';
+import 'package:cutaway/page/home/store/store_page.dart';
+import 'package:cutaway/widget/KeepAlivePage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
-import '../../database/preferences.dart';
-import '../../widget/KeepAlivePage.dart';
-import 'account/account_page.dart';
-import 'favorites_page.dart';
-import 'my_list/my_order_page.dart';
-import 'bulletin_dialog.dart';
-import 'search/search_page.dart';
-import 'store/store_page.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 part 'home_view_model.dart';
 
@@ -99,7 +98,7 @@ class _PageView extends ConsumerWidget {
         physics: const NeverScrollableScrollPhysics(),
         controller: _controller,
         onPageChanged: (value) {
-          ref.read(_pagePosition.state).state = value;
+          ref.read(_pagePosition.notifier).state = value;
         },
         itemCount: _pages.length,
         itemBuilder: (context, index) {
@@ -124,7 +123,7 @@ class _BottomNavigationBar extends ConsumerWidget {
       onTap: (value) {
         _controller.jumpToPage(value);
       },
-      currentIndex: ref.watch(_pagePosition.state).state,
+      currentIndex: ref.watch(_pagePosition.notifier).state,
       items: [
         const BottomNavigationBarItem(
           label: '珍貴選品',
@@ -135,7 +134,7 @@ class _BottomNavigationBar extends ConsumerWidget {
           icon: Consumer(
             builder: (context, ref, child) {
               return Icon(Icons.favorite,
-                  color: ref.watch(_pagePosition.state).state == 1
+                  color: ref.watch(_pagePosition.notifier).state == 1
                       ? Colors.redAccent
                       : Colors.grey);
             },

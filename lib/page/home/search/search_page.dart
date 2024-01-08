@@ -1,11 +1,10 @@
+import 'package:cutaway/model/StoreSummary.dart';
+import 'package:cutaway/tool/images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../model/StoreSummary.dart';
-import '../../../tool/images.dart';
-
 class SearchPage extends StatelessWidget {
-  SearchPage({Key? key}) : super(key: key);
+  SearchPage({super.key});
 
   final List<StoreSummary> _storeSummarys = [
     StoreSummary(1, Images.cake, '蛋糕專區', ''),
@@ -25,7 +24,6 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black),
         title: _buildSearchBar(),
       ),
@@ -54,9 +52,7 @@ class SearchPage extends StatelessWidget {
 Widget _buildSearchBar() {
   return Container(
     padding: const EdgeInsets.all(8),
-    decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-        color: Colors.black12),
+    decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8)), color: Colors.black12),
     child: Row(
       children: [
         const Icon(
@@ -69,7 +65,7 @@ Widget _buildSearchBar() {
         Text(
           '搜尋店家，例如：阜杭豆漿',
           style: TextStyle(color: Colors.grey, fontSize: 16.sp),
-        )
+        ),
       ],
     ),
   );
@@ -99,12 +95,12 @@ Widget _buildStore(StoreSummary storeSummary) {
               color: const Color(0x77000000),
             ),
             Align(
-                alignment: Alignment.center,
-                child: Text(
-                  storeSummary.title,
-                  style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ))
+              alignment: Alignment.center,
+              child: Text(
+                storeSummary.title,
+                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
           ],
         ),
       ),

@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class FavoritesPage extends StatelessWidget {
-  const FavoritesPage({Key? key}) : super(key: key);
+  const FavoritesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,26 +13,25 @@ class FavoritesPage extends StatelessWidget {
         title: const Text('我的選品'),
         actions: [
           IconButton(
-              onPressed: () {
-                var router = GoRouter.of(context);
-                router.go('${router.location}${AppPage.notification.fullPath}');
-              },
-              icon: Stack(
-                children: [
-                  Icon(Icons.notifications, color: Colors.yellow[100]),
-                  const Icon(Icons.notifications_none),
-                  Positioned(
-                    top: 4,
-                    right: 2,
-                    child: Container(
-                      height: 8,
-                      width: 8,
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.red),
-                    ),
-                  )
-                ],
-              ))
+            onPressed: () {
+              context.pushNamed(AppPage.notification.name);
+            },
+            icon: Stack(
+              children: [
+                Icon(Icons.notifications, color: Colors.yellow[100]),
+                const Icon(Icons.notifications_none),
+                Positioned(
+                  top: 4,
+                  right: 2,
+                  child: Container(
+                    height: 8,
+                    width: 8,
+                    decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                  ),
+                )
+              ],
+            ),
+          )
         ],
       ),
       body: Center(

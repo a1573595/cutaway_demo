@@ -1,14 +1,14 @@
 import 'package:cutaway/router/route_utils.dart';
 import 'package:cutaway/tool/images.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 part 'login_view_model.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,9 @@ class LoginPage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       decoration: const BoxDecoration(
         image: DecorationImage(
-            image: AssetImage(Images.background), fit: BoxFit.cover),
+          image: AssetImage(Images.background),
+          fit: BoxFit.cover,
+        ),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -66,8 +68,7 @@ class _Body extends StatelessWidget {
               style: ButtonStyle(
                   padding: MaterialStateProperty.all(const EdgeInsets.all(16)),
                   backgroundColor: MaterialStateProperty.all(Colors.grey),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4)))),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)))),
               child: const Text(
                 '登入',
                 style: TextStyle(color: Colors.white),
@@ -91,10 +92,9 @@ class _Body extends StatelessWidget {
 
 class _AccountField extends ConsumerWidget {
   const _AccountField({
-    Key? key,
+    super.key,
     required TextEditingController accountController,
-  })  : _controller = accountController,
-        super(key: key);
+  }) : _controller = accountController;
 
   final TextEditingController _controller;
 
@@ -103,48 +103,51 @@ class _AccountField extends ConsumerWidget {
     return TextField(
       controller: _controller,
       onChanged: (value) {
-        ref.read(_isAccountNotEmpty.state).state = value.isNotEmpty;
+        ref.read(_isAccountNotEmpty.notifier).state = value.isNotEmpty;
       },
       decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          hintText: '信箱',
-          suffixIcon: ClipOval(
-            child: Material(
-              color: Colors.transparent,
-              child: Consumer(builder: (context, ref, child) {
-                return ref.watch(_isAccountNotEmpty.state).state
-                    ? IconButton(
-                        onPressed: () {
-                          _controller.clear();
-                          ref.read(_isAccountNotEmpty.state).state = false;
-                        },
-                        icon: const Icon(
-                          Icons.cancel,
-                          color: Colors.black,
-                        ),
-                      )
-                    : const SizedBox();
-              }),
-            ),
+        filled: true,
+        fillColor: Colors.white,
+        hintText: '信箱',
+        suffixIcon: ClipOval(
+          child: Material(
+            color: Colors.transparent,
+            child: Consumer(builder: (context, ref, child) {
+              return ref.watch(_isAccountNotEmpty.notifier).state
+                  ? IconButton(
+                      onPressed: () {
+                        _controller.clear();
+                        ref.read(_isAccountNotEmpty.notifier).state = false;
+                      },
+                      icon: const Icon(
+                        Icons.cancel,
+                        color: Colors.black,
+                      ),
+                    )
+                  : const SizedBox();
+            }),
           ),
-          contentPadding: const EdgeInsets.only(left: 12),
-          enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 0.5)),
-          focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 0.5)),
-          border: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 0.5))),
+        ),
+        contentPadding: const EdgeInsets.only(left: 12),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.black, width: 0.5),
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.black, width: 0.5),
+        ),
+        border: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.black, width: 0.5),
+        ),
+      ),
     );
   }
 }
 
 class _PasswordField extends ConsumerWidget {
   const _PasswordField({
-    Key? key,
+    super.key,
     required TextEditingController passwordController,
-  })  : _controller = passwordController,
-        super(key: key);
+  }) : _controller = passwordController;
 
   final TextEditingController _controller;
 
@@ -153,65 +156,68 @@ class _PasswordField extends ConsumerWidget {
     return TextField(
       controller: _controller,
       onChanged: (value) {
-        ref.read(_isPasswordNotEmpty.state).state = value.isNotEmpty;
+        ref.read(_isPasswordNotEmpty.notifier).state = value.isNotEmpty;
       },
-      obscureText: !ref.watch(_isPasswordVisible.state).state,
+      obscureText: !ref.watch(_isPasswordVisible.notifier).state,
       decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          hintText: '密碼',
-          suffixIcon: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ClipOval(
-                child: Material(
-                  color: Colors.transparent,
-                  child: Consumer(
-                    builder: (context, ref, child) {
-                      return IconButton(
-                          onPressed: () {
-                            ref
-                                .read(_isPasswordVisible.state)
-                                .update((state) => !state);
-                          },
-                          icon: Icon(
-                            !ref.watch(_isPasswordVisible.state).state
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined,
-                            color: Colors.black,
-                          ));
-                    },
-                  ),
+        filled: true,
+        fillColor: Colors.white,
+        hintText: '密碼',
+        suffixIcon: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ClipOval(
+              child: Material(
+                color: Colors.transparent,
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    return IconButton(
+                      onPressed: () {
+                        ref.read(_isPasswordVisible.notifier).update((state) => !state);
+                      },
+                      icon: Icon(
+                        !ref.watch(_isPasswordVisible.notifier).state
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                        color: Colors.black,
+                      ),
+                    );
+                  },
                 ),
               ),
-              ClipOval(
-                child: Material(
-                  color: Colors.transparent,
-                  child: Consumer(builder: (context, ref, child) {
-                    return ref.watch(_isPasswordNotEmpty.state).state
-                        ? IconButton(
-                            onPressed: () {
-                              _controller.clear();
-                              ref.read(_isPasswordNotEmpty.state).state = false;
-                            },
-                            icon: const Icon(
-                              Icons.cancel,
-                              color: Colors.black,
-                            ),
-                          )
-                        : const SizedBox();
-                  }),
-                ),
-              )
-            ],
-          ),
-          contentPadding: const EdgeInsets.only(left: 12),
-          enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 0.5)),
-          focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 0.5)),
-          border: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 0.5))),
+            ),
+            ClipOval(
+              child: Material(
+                color: Colors.transparent,
+                child: Consumer(builder: (context, ref, child) {
+                  return ref.watch(_isPasswordNotEmpty.notifier).state
+                      ? IconButton(
+                          onPressed: () {
+                            _controller.clear();
+                            ref.read(_isPasswordNotEmpty.notifier).state = false;
+                          },
+                          icon: const Icon(
+                            Icons.cancel,
+                            color: Colors.black,
+                          ),
+                        )
+                      : const SizedBox();
+                }),
+              ),
+            )
+          ],
+        ),
+        contentPadding: const EdgeInsets.only(left: 12),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.black, width: 0.5),
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.black, width: 0.5),
+        ),
+        border: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.black, width: 0.5),
+        ),
+      ),
     );
   }
 }

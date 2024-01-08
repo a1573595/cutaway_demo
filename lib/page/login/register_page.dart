@@ -1,24 +1,22 @@
+import 'package:cutaway/router/route_utils.dart';
 import 'package:cutaway/tool/images.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../router/route_utils.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 part 'register_view_model.dart';
 
 class RegisterPage extends StatelessWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+  const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       decoration: const BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage(Images.background), fit: BoxFit.cover),
+        image: DecorationImage(image: AssetImage(Images.background), fit: BoxFit.cover),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -33,7 +31,7 @@ class RegisterPage extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  _Body({Key? key}) : super(key: key);
+  _Body({super.key});
 
   final TextEditingController _nameController = TextEditingController();
 
@@ -79,8 +77,7 @@ class _Body extends StatelessWidget {
               style: ButtonStyle(
                   padding: MaterialStateProperty.all(const EdgeInsets.all(16)),
                   backgroundColor: MaterialStateProperty.all(Colors.grey),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4)))),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)))),
               child: const Text(
                 '下一步',
                 style: TextStyle(color: Colors.white),
@@ -91,11 +88,12 @@ class _Body extends StatelessWidget {
         ),
         Center(
           child: TextButton(
-              onPressed: () => GoRouter.of(context).go(AppPage.home.fullPath),
-              child: const Text(
-                '忘記密碼?',
-                style: TextStyle(color: Colors.black),
-              )),
+            onPressed: () => GoRouter.of(context).go(AppPage.home.fullPath),
+            child: const Text(
+              '忘記密碼?',
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
         ),
       ],
     );
@@ -104,10 +102,9 @@ class _Body extends StatelessWidget {
 
 class _NameField extends ConsumerWidget {
   const _NameField({
-    Key? key,
+    super.key,
     required TextEditingController accountController,
-  })  : _controller = accountController,
-        super(key: key);
+  }) : _controller = accountController;
 
   final TextEditingController _controller;
 
@@ -116,44 +113,48 @@ class _NameField extends ConsumerWidget {
     return TextField(
       controller: _controller,
       onChanged: (value) {
-        ref.read(_isNameNotEmpty.state).state = value.isNotEmpty;
+        ref.read(_isNameNotEmpty.notifier).state = value.isNotEmpty;
       },
       decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          hintText: '姓名',
-          suffixIcon: ClipOval(
-            child: Material(
-              color: Colors.transparent,
-              child: Consumer(builder: (context, ref, child) {
-                return ref.watch(_isNameNotEmpty.state).state
-                    ? IconButton(
-                        onPressed: () {
-                          _controller.clear();
-                          ref.read(_isNameNotEmpty.state).state = false;
-                        },
-                        icon: const Icon(
-                          Icons.cancel,
-                          color: Colors.black,
-                        ),
-                      )
-                    : const SizedBox();
-              }),
-            ),
+        filled: true,
+        fillColor: Colors.white,
+        hintText: '姓名',
+        suffixIcon: ClipOval(
+          child: Material(
+            color: Colors.transparent,
+            child: Consumer(builder: (context, ref, child) {
+              return ref.watch(_isNameNotEmpty.notifier).state
+                  ? IconButton(
+                      onPressed: () {
+                        _controller.clear();
+                        ref.read(_isNameNotEmpty.notifier).state = false;
+                      },
+                      icon: const Icon(
+                        Icons.cancel,
+                        color: Colors.black,
+                      ),
+                    )
+                  : const SizedBox();
+            }),
           ),
-          contentPadding: const EdgeInsets.only(left: 12),
-          enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 0.5)),
-          focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 0.5)),
-          border: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 0.5))),
+        ),
+        contentPadding: const EdgeInsets.only(left: 12),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.black, width: 0.5),
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.black, width: 0.5),
+        ),
+        border: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.black, width: 0.5),
+        ),
+      ),
     );
   }
 }
 
 class _AppellationPicker extends ConsumerWidget {
-  _AppellationPicker({Key? key}) : super(key: key);
+  _AppellationPicker({super.key});
 
   final items = [
     "先生",
@@ -165,21 +166,20 @@ class _AppellationPicker extends ConsumerWidget {
     return TextButton(
       onPressed: () => _showAppellationPicker(context, ref),
       style: ButtonStyle(
-          alignment: Alignment.centerLeft,
-          padding: MaterialStateProperty.all(const EdgeInsets.all(12)),
-          side: MaterialStateProperty.all(
-              const BorderSide(color: Colors.black, width: 0.5)),
-          backgroundColor: MaterialStateProperty.all(Colors.white),
-          shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)))),
+        alignment: Alignment.centerLeft,
+        padding: MaterialStateProperty.all(const EdgeInsets.all(12)),
+        side: MaterialStateProperty.all(const BorderSide(color: Colors.black, width: 0.5)),
+        backgroundColor: MaterialStateProperty.all(Colors.white),
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+        ),
+      ),
       child: Consumer(
         builder: (context, ref, child) {
-          var appellation = ref.watch(_appellation.state).state;
+          var appellation = ref.watch(_appellation.notifier).state;
           return Text(
             appellation.isEmpty ? '稱謂' : appellation,
-            style: TextStyle(
-                color: appellation.isEmpty ? Colors.grey : Colors.black,
-                fontSize: 16.sp),
+            style: TextStyle(color: appellation.isEmpty ? Colors.grey : Colors.black, fontSize: 16.sp),
           );
         },
       ),
@@ -187,8 +187,8 @@ class _AppellationPicker extends ConsumerWidget {
   }
 
   void _showAppellationPicker(context, ref) {
-    if (ref.read(_appellation.state).state.isEmpty) {
-      ref.read(_appellation.state).state = items[0];
+    if (ref.read(_appellation.notifier).state.isEmpty) {
+      ref.read(_appellation.notifier).state = items[0];
     }
 
     showCupertinoModalPopup(
@@ -220,14 +220,14 @@ class _AppellationPicker extends ConsumerWidget {
               ))
           .toList(),
       onSelectedItemChanged: (index) {
-        ref.read(_appellation.state).state = items[index];
+        ref.read(_appellation.notifier).state = items[index];
       },
     );
   }
 }
 
 class _BirthdayPicker extends ConsumerWidget {
-  const _BirthdayPicker({Key? key}) : super(key: key);
+  const _BirthdayPicker({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -238,19 +238,15 @@ class _BirthdayPicker extends ConsumerWidget {
         style: ButtonStyle(
             alignment: Alignment.centerLeft,
             padding: MaterialStateProperty.all(const EdgeInsets.all(12)),
-            side: MaterialStateProperty.all(
-                const BorderSide(color: Colors.black, width: 0.5)),
+            side: MaterialStateProperty.all(const BorderSide(color: Colors.black, width: 0.5)),
             backgroundColor: MaterialStateProperty.all(Colors.white),
-            shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4)))),
+            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)))),
         child: Consumer(
           builder: (context, ref, child) {
-            var birthday = ref.watch(_birthday.state).state;
+            var birthday = ref.watch(_birthday.notifier).state;
             return Text(
               birthday.isEmpty ? '生日' : birthday,
-              style: TextStyle(
-                  color: birthday.isEmpty ? Colors.grey : Colors.black,
-                  fontSize: 16.sp),
+              style: TextStyle(color: birthday.isEmpty ? Colors.grey : Colors.black, fontSize: 16.sp),
             );
           },
         ),
@@ -260,26 +256,26 @@ class _BirthdayPicker extends ConsumerWidget {
 
   void _showDatePicker(context, ref) {
     showCupertinoModalPopup(
-        context: context,
-        builder: (_) => Container(
-              height: 190,
-              color: Colors.white,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 180,
-                    child: CupertinoDatePicker(
-                        mode: CupertinoDatePickerMode.date,
-                        initialDateTime: DateTime.now(),
-                        minimumDate: DateTime(1900, 1, 1),
-                        maximumDate: DateTime.now(),
-                        onDateTimeChanged: (value) {
-                          ref.read(_birthday.state).state =
-                              '${value.year}-${value.month}-${value.day}';
-                        }),
-                  ),
-                ],
-              ),
-            ));
+      context: context,
+      builder: (_) => Container(
+        height: 190,
+        color: Colors.white,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 180,
+              child: CupertinoDatePicker(
+                  mode: CupertinoDatePickerMode.date,
+                  initialDateTime: DateTime.now(),
+                  minimumDate: DateTime(1900, 1, 1),
+                  maximumDate: DateTime.now(),
+                  onDateTimeChanged: (value) {
+                    ref.read(_birthday.notifier).state = '${value.year}-${value.month}-${value.day}';
+                  }),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

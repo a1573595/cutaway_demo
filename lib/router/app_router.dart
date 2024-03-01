@@ -36,7 +36,6 @@ final homeRouter = GoRoute(
     GoRoute(
       name: AppPage.notification.name,
       path: AppPage.notification.path,
-      // path: 'notification',
       builder: (context, state) => NotificationPage(),
       routes: [
         GoRoute(

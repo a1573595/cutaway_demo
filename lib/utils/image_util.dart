@@ -1,8 +1,8 @@
-class Images {
-  static const launch_logo = "assets/images/app_icon.png";
-  static const intro_step1 = "assets/images/intro_step1.png";
-  static const intro_step2 = "assets/images/intro_step2.png";
-  static const intro_step3 = "assets/images/intro_step3.png";
+class ImageUtil {
+  static const launchLogo = "assets/images/app_icon.png";
+  static const introStep1 = "assets/images/intro_step1.png";
+  static const introStep2 = "assets/images/intro_step2.png";
+  static const introStep3 = "assets/images/intro_step3.png";
   static const background = "assets/images/background.jpeg";
   static const cake = "assets/images/cake.jpeg";
   static const breakfast = "assets/images/breakfast.jpeg";

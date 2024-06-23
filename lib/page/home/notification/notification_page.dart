@@ -37,8 +37,8 @@ class NotificationPage extends ConsumerWidget {
                 Expanded(
                   flex: 1,
                   child: Consumer(builder: (context, ref, _) {
-                    var page = ref.watch(_pagePosition.notifier).state;
-                    var color = page == 0 ? Colors.yellow[100] : Colors.white;
+                    final page = ref.watch(_pagePosition.notifier).state;
+                    final color = page == 0 ? Colors.yellow[100] : Colors.white;
 
                     return TextButton(
                       onPressed: () => ref.read(_pagePosition.notifier).state = 0,
@@ -60,45 +60,54 @@ class NotificationPage extends ConsumerWidget {
                 ),
                 Expanded(
                   flex: 1,
-                  child: Consumer(builder: (context, ref, _) {
-                    var page = ref.watch(_pagePosition.state).state;
-                    var color = page == 1 ? Colors.yellow[100] : Colors.white;
+                  child: Consumer(
+                    builder: (context, ref, _) {
+                      final page = ref.watch(_pagePosition.notifier).state;
+                      final color = page == 1 ? Colors.yellow[100] : Colors.white;
 
-                    return TextButton(
-                      onPressed: () => ref.read(_pagePosition.state).state = 1,
-                      style: TextButton.styleFrom(
+                      return TextButton(
+                        onPressed: () => ref.read(_pagePosition.notifier).state = 1,
+                        style: TextButton.styleFrom(
                           backgroundColor: color,
                           side: const BorderSide(color: Colors.grey),
-                          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4)))),
-                      child: const Center(
-                        child: Text(
-                          '卡編專區',
-                          style: TextStyle(color: Colors.black),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4)),
+                          ),
                         ),
-                      ),
-                    );
-                  }),
+                        child: const Center(
+                          child: Text(
+                            '卡編專區',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
             const Divider(color: Colors.black),
             Expanded(
-              child: Consumer(builder: (context, ref, _) {
-                var page = ref.watch(_pagePosition.state).state;
-                if (page == 0) {
-                  return ListView.builder(
+              child: Consumer(
+                builder: (context, ref, _) {
+                  final page = ref.watch(_pagePosition.notifier).state;
+                  if (page == 0) {
+                    return ListView.builder(
                       itemCount: notificationList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ItemNotification(notificationList[index]);
-                      });
-                } else {
-                  return ListView.builder(
+                      },
+                    );
+                  } else {
+                    return ListView.builder(
                       itemCount: promotionList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ItemPromotion(promotionList[index]);
-                      });
-                }
-              }),
+                      },
+                    );
+                  }
+                },
+              ),
             )
           ],
         ),
@@ -108,7 +117,7 @@ class NotificationPage extends ConsumerWidget {
 }
 
 class ItemNotification extends StatelessWidget {
-  const ItemNotification(this._info, {Key? key}) : super(key: key);
+  const ItemNotification(this._info, {super.key});
 
   final NotificationInfo _info;
 
@@ -117,15 +126,19 @@ class ItemNotification extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: InkWell(
-        onTap: () {
-          context.pushNamed(AppPage.notificationDetail.name, extra: _info);
-        },
+        onTap: () => context.pushNamed(AppPage.notificationDetail.name, extra: _info),
         child: Ink(
           height: 80.sp,
           decoration: BoxDecoration(
-              color: Colors.white, border: Border.all(), borderRadius: const BorderRadius.all(Radius.circular(4.0))),
+            color: Colors.white,
+            border: Border.all(),
+            borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+          ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            padding: const EdgeInsets.symmetric(
+              vertical: 8,
+              horizontal: 12,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -133,16 +146,22 @@ class ItemNotification extends StatelessWidget {
                   _info.title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(color: Colors.black),
+                  style: const TextStyle(
+                    color: Colors.black,
+                  ),
                 ),
-                Expanded(child: Container()),
+                Expanded(
+                  child: Container(),
+                ),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Text(
                     _getDateString(_info.sentTime),
-                    style: const TextStyle(color: Colors.black),
+                    style: const TextStyle(
+                      color: Colors.black,
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -152,7 +171,7 @@ class ItemNotification extends StatelessWidget {
   }
 
   String _getDateString(int timeMillis) {
-    var date = DateTime.fromMillisecondsSinceEpoch(timeMillis);
+    final date = DateTime.fromMillisecondsSinceEpoch(timeMillis);
     return '${date.year}-${date.month}-${date.day}';
   }
 }
@@ -165,15 +184,23 @@ class ItemPromotion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(
+        vertical: 8,
+      ),
       child: InkWell(
         onTap: () => Navigator.of(context),
         child: Ink(
           height: 100.sp,
           decoration: BoxDecoration(
-              color: Colors.white, border: Border.all(), borderRadius: const BorderRadius.all(Radius.circular(4.0))),
+            color: Colors.white,
+            border: Border.all(),
+            borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+          ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            padding: const EdgeInsets.symmetric(
+              vertical: 8,
+              horizontal: 12,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -181,22 +208,30 @@ class ItemPromotion extends StatelessWidget {
                   _info.title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(color: Colors.black),
+                  style: const TextStyle(
+                    color: Colors.black,
+                  ),
                 ),
                 Text(
                   _info.description,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(color: Colors.black),
+                  style: const TextStyle(
+                    color: Colors.black,
+                  ),
                 ),
-                Expanded(child: Container()),
+                Expanded(
+                  child: Container(),
+                ),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Text(
                     _getDateString(_info.sentTime),
-                    style: const TextStyle(color: Colors.black),
+                    style: const TextStyle(
+                      color: Colors.black,
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -206,7 +241,7 @@ class ItemPromotion extends StatelessWidget {
   }
 
   String _getDateString(int timeMillis) {
-    var date = DateTime.fromMillisecondsSinceEpoch(timeMillis);
+    final date = DateTime.fromMillisecondsSinceEpoch(timeMillis);
     return '${date.year}-${date.month}-${date.day}';
   }
 }

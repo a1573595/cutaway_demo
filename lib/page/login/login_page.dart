@@ -1,5 +1,5 @@
 import 'package:cutaway/router/route_utils.dart';
-import 'package:cutaway/tool/images.dart';
+import 'package:cutaway/utils/image_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -16,7 +16,7 @@ class LoginPage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(Images.background),
+          image: AssetImage(ImageUtil.background),
           fit: BoxFit.cover,
         ),
       ),
@@ -64,26 +64,33 @@ class _Body extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: TextButton(
-              onPressed: () => GoRouter.of(context).go(AppPage.home.fullPath),
-              style: ButtonStyle(
-                  padding: MaterialStateProperty.all(const EdgeInsets.all(16)),
-                  backgroundColor: MaterialStateProperty.all(Colors.grey),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)))),
-              child: const Text(
-                '登入',
-                style: TextStyle(color: Colors.white),
-              )),
+            onPressed: () => context.go(AppPage.home.fullPath),
+            style: ButtonStyle(
+              padding: WidgetStateProperty.all(const EdgeInsets.all(16)),
+              backgroundColor: WidgetStateProperty.all(Colors.grey),
+              shape: WidgetStateProperty.all(
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+              ),
+            ),
+            child: const Text(
+              '登入',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
         ),
         const SizedBox(
           height: 16,
         ),
         Center(
           child: TextButton(
-              onPressed: () => GoRouter.of(context).go(AppPage.home.fullPath),
-              child: const Text(
-                '忘記密碼?',
-                style: TextStyle(color: Colors.black),
-              )),
+            onPressed: () => context.go(AppPage.home.fullPath),
+            child: const Text(
+              '忘記密碼?',
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+          ),
         ),
       ],
     );
@@ -112,31 +119,42 @@ class _AccountField extends ConsumerWidget {
         suffixIcon: ClipOval(
           child: Material(
             color: Colors.transparent,
-            child: Consumer(builder: (context, ref, child) {
-              return ref.watch(_isAccountNotEmpty.notifier).state
-                  ? IconButton(
-                      onPressed: () {
-                        _controller.clear();
-                        ref.read(_isAccountNotEmpty.notifier).state = false;
-                      },
-                      icon: const Icon(
-                        Icons.cancel,
-                        color: Colors.black,
-                      ),
-                    )
-                  : const SizedBox();
-            }),
+            child: Consumer(
+              builder: (context, ref, child) {
+                return ref.watch(_isAccountNotEmpty.notifier).state
+                    ? IconButton(
+                        onPressed: () {
+                          _controller.clear();
+                          ref.read(_isAccountNotEmpty.notifier).state = false;
+                        },
+                        icon: const Icon(
+                          Icons.cancel,
+                          color: Colors.black,
+                        ),
+                      )
+                    : const SizedBox();
+              },
+            ),
           ),
         ),
         contentPadding: const EdgeInsets.only(left: 12),
         enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black, width: 0.5),
+          borderSide: BorderSide(
+            color: Colors.black,
+            width: 0.5,
+          ),
         ),
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black, width: 0.5),
+          borderSide: BorderSide(
+            color: Colors.black,
+            width: 0.5,
+          ),
         ),
         border: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black, width: 0.5),
+          borderSide: BorderSide(
+            color: Colors.black,
+            width: 0.5,
+          ),
         ),
       ),
     );
@@ -189,33 +207,44 @@ class _PasswordField extends ConsumerWidget {
             ClipOval(
               child: Material(
                 color: Colors.transparent,
-                child: Consumer(builder: (context, ref, child) {
-                  return ref.watch(_isPasswordNotEmpty.notifier).state
-                      ? IconButton(
-                          onPressed: () {
-                            _controller.clear();
-                            ref.read(_isPasswordNotEmpty.notifier).state = false;
-                          },
-                          icon: const Icon(
-                            Icons.cancel,
-                            color: Colors.black,
-                          ),
-                        )
-                      : const SizedBox();
-                }),
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    return ref.watch(_isPasswordNotEmpty.notifier).state
+                        ? IconButton(
+                            onPressed: () {
+                              _controller.clear();
+                              ref.read(_isPasswordNotEmpty.notifier).state = false;
+                            },
+                            icon: const Icon(
+                              Icons.cancel,
+                              color: Colors.black,
+                            ),
+                          )
+                        : const SizedBox();
+                  },
+                ),
               ),
             )
           ],
         ),
         contentPadding: const EdgeInsets.only(left: 12),
         enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black, width: 0.5),
+          borderSide: BorderSide(
+            color: Colors.black,
+            width: 0.5,
+          ),
         ),
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black, width: 0.5),
+          borderSide: BorderSide(
+            color: Colors.black,
+            width: 0.5,
+          ),
         ),
         border: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black, width: 0.5),
+          borderSide: BorderSide(
+            color: Colors.black,
+            width: 0.5,
+          ),
         ),
       ),
     );

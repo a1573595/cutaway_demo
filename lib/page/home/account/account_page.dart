@@ -78,7 +78,7 @@ class AccountPage extends StatelessWidget {
                   child: Card(
                     elevation: 4,
                     child: InkWell(
-                      onTap: () => GoRouter.of(context).push(AppPage.welcome.fullPath),
+                      onTap: () => context.push(AppPage.welcome.fullPath),
                       child: const Padding(
                         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                         child: Column(
@@ -95,9 +95,12 @@ class AccountPage extends StatelessWidget {
                   child: Card(
                     elevation: 4,
                     child: InkWell(
-                      onTap: () => GoRouter.of(context).push(AppPage.welcome.fullPath),
+                      onTap: () => context.push(AppPage.welcome.fullPath),
                       child: const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: 16,
+                        ),
                         child: Column(
                           children: [
                             Icon(Icons.login),

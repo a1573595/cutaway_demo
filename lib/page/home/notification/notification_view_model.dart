@@ -1,3 +1,3 @@
 part of 'notification_page.dart';
 
-var _pagePosition = StateProvider((ref) => 0);
+final _pagePosition = StateProvider((ref) => 0);

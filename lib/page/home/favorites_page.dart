@@ -13,12 +13,13 @@ class FavoritesPage extends StatelessWidget {
         title: const Text('我的選品'),
         actions: [
           IconButton(
-            onPressed: () {
-              context.pushNamed(AppPage.notification.name);
-            },
+            onPressed: () => context.pushNamed(AppPage.notification.name),
             icon: Stack(
               children: [
-                Icon(Icons.notifications, color: Colors.yellow[100]),
+                Icon(
+                  Icons.notifications,
+                  color: Colors.yellow[100],
+                ),
                 const Icon(Icons.notifications_none),
                 Positioned(
                   top: 4,
@@ -26,9 +27,12 @@ class FavoritesPage extends StatelessWidget {
                   child: Container(
                     height: 8,
                     width: 8,
-                    decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.red,
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           )
@@ -37,7 +41,9 @@ class FavoritesPage extends StatelessWidget {
       body: Center(
         child: Text(
           '登入會員啟用此功能',
-          style: TextStyle(fontSize: 16.sp),
+          style: TextStyle(
+            fontSize: 16.sp,
+          ),
         ),
       ),
     );

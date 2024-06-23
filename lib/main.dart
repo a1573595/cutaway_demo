@@ -1,6 +1,6 @@
 import 'package:cutaway/database/preferences.dart';
 import 'package:cutaway/router/app_router.dart';
-import 'package:cutaway/tool/images.dart';
+import 'package:cutaway/utils/image_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,22 +18,27 @@ late Logger logger;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  logger = Logger(
+    printer: PrettyPrinter(
+      printTime: true,
+    ),
+  );
+
+  FlutterError.onError = (FlutterErrorDetails details) {
+    logger.e(
+      'Error',
+      error: details.exception,
+      stackTrace: details.stack,
+    );
+  };
+
+  logger.i('Initialize the database');
   await Hive.initFlutter();
   Hive
     ..registerAdapter(NotificationInfoAdapter())
     ..registerAdapter(PromotionInfoAdapter())
     ..registerAdapter(TopicInfoAdapter())
     ..registerAdapter(StoreInfoAdapter());
-
-  logger = Logger(
-    printer: PrettyPrinter(printTime: true),
-  );
-
-  FlutterError.onError = (FlutterErrorDetails details) {
-    logger.e('Error', error: details.exception, stackTrace: details.stack);
-  };
-
-  logger.i('Initialize the database');
 
   await Hive.openBox(tablePreferences);
   var notificationBox = await Hive.openBox<NotificationInfo>(tableNotificationInfo);
@@ -64,25 +69,25 @@ void main() async {
   if (topicBox.isEmpty) {
     topicBox.addAll([
       TopicInfo('露營', 'Chill Chill 去露營', [
-        StoreInfo(0, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-        StoreInfo(1, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-        StoreInfo(2, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-        StoreInfo(3, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-        StoreInfo(4, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
+        StoreInfo(0, ImageUtil.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
+        StoreInfo(1, ImageUtil.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
+        StoreInfo(2, ImageUtil.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
+        StoreInfo(3, ImageUtil.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
+        StoreInfo(4, ImageUtil.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
       ]),
       TopicInfo('台北城', '台北城新店散策', [
-        StoreInfo(0, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-        StoreInfo(1, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-        StoreInfo(2, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-        StoreInfo(3, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-        StoreInfo(4, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
+        StoreInfo(0, ImageUtil.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
+        StoreInfo(1, ImageUtil.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
+        StoreInfo(2, ImageUtil.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
+        StoreInfo(3, ImageUtil.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
+        StoreInfo(4, ImageUtil.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
       ]),
       TopicInfo('米其林', '米其林必比登推介', [
-        StoreInfo(0, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-        StoreInfo(1, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-        StoreInfo(2, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-        StoreInfo(3, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
-        StoreInfo(4, Images.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
+        StoreInfo(0, ImageUtil.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
+        StoreInfo(1, ImageUtil.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
+        StoreInfo(2, ImageUtil.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
+        StoreInfo(3, ImageUtil.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
+        StoreInfo(4, ImageUtil.store1, '茅乃舍日本官方授權店', '茅乃舍與伊嚐特別企劃限定'),
       ]),
     ]);
   }
@@ -91,10 +96,15 @@ void main() async {
     statusBarColor: Colors.transparent,
   ));
 
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
   logger.i('Start App');
-  runApp(const ProviderScope(child: Cutaway()));
+  runApp(const ProviderScope(
+    child: Cutaway(),
+  ));
 }
 
 class Cutaway extends StatelessWidget {
@@ -103,27 +113,26 @@ class Cutaway extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ScreenUtilInit(
         minTextAdapt: true,
-        // splitScreenMode: true,
         builder: (context, child) => MaterialApp.router(
           routeInformationProvider: rootRouter.routeInformationProvider,
           routeInformationParser: rootRouter.routeInformationParser,
           routerDelegate: rootRouter.routerDelegate,
           title: 'Cutaway',
           theme: ThemeData(
-            scaffoldBackgroundColor: const Color(0xFFFCFCFC),
-            appBarTheme: Theme.of(context).appBarTheme.copyWith(
-                  centerTitle: true,
-                  color: Colors.white,
-                  titleTextStyle: TextStyle(color: Colors.black, fontSize: 20.sp),
-                  iconTheme: Theme.of(context).iconTheme,
-                ),
-            tabBarTheme: Theme.of(context).tabBarTheme.copyWith(),
-            textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp, displayColor: Colors.black, bodyColor: Colors.black),
-            // primaryColor: const Color(0xff26c6ed),
-            // primaryIconTheme: const IconThemeData(color: Colors.black),
-            // iconTheme: const IconThemeData(color: Colors.white)
-            // appBarTheme: const AppBarTheme(
-            //     iconTheme: IconThemeData(color: Colors.black))
+            appBarTheme: AppBarTheme(
+              centerTitle: true,
+              color: Colors.white,
+              titleTextStyle: TextStyle(
+                color: Colors.black,
+                fontSize: 20.sp,
+              ),
+              iconTheme: Theme.of(context).iconTheme,
+            ),
+            textTheme: Typography.englishLike2018.apply(
+              fontSizeFactor: 1.sp,
+              displayColor: Colors.black,
+              bodyColor: Colors.black,
+            ),
           ),
         ),
       );

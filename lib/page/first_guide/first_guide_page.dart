@@ -1,8 +1,7 @@
 import 'package:cutaway/database/preferences.dart';
-import 'package:cutaway/model/Guide.dart';
+import 'package:cutaway/model/guide.dart';
 import 'package:cutaway/router/route_utils.dart';
-import 'package:cutaway/tool/images.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cutaway/utils/image_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,9 +13,9 @@ class FirstGuidePage extends HookWidget {
   FirstGuidePage({super.key});
 
   final _guides = [
-    Guide(Images.intro_step1, '線上訂購', '網站APP下單、菜單點餐方便快速。'),
-    Guide(Images.intro_step2, '管家代管', '無合作幫你排、官方合作免排隊費。'),
-    Guide(Images.intro_step3, '輕鬆享受', '外送早餐點心、內用拉麵火鍋都行。'),
+    Guide(ImageUtil.introStep1, '線上訂購', '網站APP下單、菜單點餐方便快速。'),
+    Guide(ImageUtil.introStep2, '管家代管', '無合作幫你排、官方合作免排隊費。'),
+    Guide(ImageUtil.introStep3, '輕鬆享受', '外送早餐點心、內用拉麵火鍋都行。'),
   ];
 
   @override
@@ -78,9 +77,7 @@ class FirstGuidePage extends HookWidget {
                   ),
                 ],
               ),
-              onPageChanged: (position) {
-                isLast.value = position == _guides.length - 1;
-              },
+              onPageChanged: (position) => isLast.value = position == _guides.length - 1,
             ),
             Visibility(
               visible: !isLast.value,
@@ -165,7 +162,7 @@ class FirstGuidePage extends HookWidget {
   }
 
   void _onNextClick(BuildContext context, PageController controller) {
-    var page = controller.page;
+    final page = controller.page;
     if (page != null) {
       if (page + 1 < _guides.length) {
         controller.animateToPage(

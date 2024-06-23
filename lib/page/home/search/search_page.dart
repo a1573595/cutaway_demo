@@ -1,34 +1,35 @@
-import 'package:cutaway/model/StoreSummary.dart';
-import 'package:cutaway/tool/images.dart';
+import 'package:cutaway/model/store_summary.dart';
+import 'package:cutaway/utils/image_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SearchPage extends StatelessWidget {
-  SearchPage({super.key});
-
-  final List<StoreSummary> _storeSummarys = [
-    StoreSummary(1, Images.cake, '蛋糕專區', ''),
-    StoreSummary(2, Images.breakfast, '早餐專區', ''),
-    StoreSummary(3, Images.dinner, '派對專區', ''),
-    StoreSummary(4, Images.fruit, '蔬食專區', ''),
-    StoreSummary(5, Images.desert, '甜品專區', ''),
-    StoreSummary(6, Images.food, '異國料理專區', ''),
-    StoreSummary(7, Images.drink, '飲料專區', ''),
-    StoreSummary(8, Images.bread, '麵包專區', ''),
-    StoreSummary(9, Images.chineseFood, '中式料理', ''),
-    StoreSummary(10, Images.japaneseFood, '日式料理', ''),
-    StoreSummary(11, Images.fastFood, '快餐料理', ''),
-  ];
+class SearchPage extends HookWidget {
+  const SearchPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final children = useMemoized(() => [
+          StoreSummary(1, ImageUtil.cake, '蛋糕專區', ''),
+          StoreSummary(2, ImageUtil.breakfast, '早餐專區', ''),
+          StoreSummary(3, ImageUtil.dinner, '派對專區', ''),
+          StoreSummary(4, ImageUtil.fruit, '蔬食專區', ''),
+          StoreSummary(5, ImageUtil.desert, '甜品專區', ''),
+          StoreSummary(6, ImageUtil.food, '異國料理專區', ''),
+          StoreSummary(7, ImageUtil.drink, '飲料專區', ''),
+          StoreSummary(8, ImageUtil.bread, '麵包專區', ''),
+          StoreSummary(9, ImageUtil.chineseFood, '中式料理', ''),
+          StoreSummary(10, ImageUtil.japaneseFood, '日式料理', ''),
+          StoreSummary(11, ImageUtil.fastFood, '快餐料理', ''),
+        ].map((e) => _buildStore(e)).toList());
+
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+        ),
         title: _buildSearchBar(),
       ),
-
-      // body: GridView.builder(gridDelegate: gridDelegate, itemBuilder: itemBuilder),
       body: GridView.count(
         /**
          * 限制item比例，影響item高度
@@ -42,8 +43,12 @@ class SearchPage extends StatelessWidget {
          */
         // physics: const ScrollPhysics(),
         physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.only(top: 16, left: 8, right: 8),
-        children: _storeSummarys.map<Widget>((e) => _buildStore(e)).toList(),
+        padding: const EdgeInsets.only(
+          top: 16,
+          left: 8,
+          right: 8,
+        ),
+        children: children,
       ),
     );
   }
@@ -52,7 +57,10 @@ class SearchPage extends StatelessWidget {
 Widget _buildSearchBar() {
   return Container(
     padding: const EdgeInsets.all(8),
-    decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8)), color: Colors.black12),
+    decoration: const BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+      color: Colors.black12,
+    ),
     child: Row(
       children: [
         const Icon(
@@ -64,7 +72,10 @@ Widget _buildSearchBar() {
         ),
         Text(
           '搜尋店家，例如：阜杭豆漿',
-          style: TextStyle(color: Colors.grey, fontSize: 16.sp),
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 16.sp,
+          ),
         ),
       ],
     ),
@@ -98,7 +109,10 @@ Widget _buildStore(StoreSummary storeSummary) {
               alignment: Alignment.center,
               child: Text(
                 storeSummary.title,
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
